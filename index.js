@@ -1,7 +1,19 @@
+// Dependencies
 var OS = require("os");
 
+/**
+ * Box
+ * Creates a new instance of Box function
+ *
+ * @name exports
+ * @function
+ * @param {Object|String} options Object containing the options or a string
+ * representing the size: `WIDTHxHEIGHT` (e.g. `10x20`)
+ * @return
+ */
 module.exports = function (options) {
 
+    // Parse the options
     var w = options.width || options.w
       , h = options.height || options.h
       , defaults = {
@@ -29,6 +41,7 @@ module.exports = function (options) {
         }
     }
 
+    // Create settings
     var settings = {
             width: w
           , height: h
@@ -83,7 +96,6 @@ module.exports = function (options) {
         }
         box += this.settings.marks.se;
 
-        // Finally return the stringified box
         return box;
     };
 };
