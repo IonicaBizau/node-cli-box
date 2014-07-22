@@ -1,0 +1,28 @@
+{
+  "name": "cli-box",
+  "version": "1.0.0",
+  "description": "A library to generate ASCII boxes via NodeJS",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:IonicaBizau/node-cli-box.git"
+  },
+  "keywords": [
+    "cli",
+    "box",
+    "ascii",
+    "node"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/node-cli-box/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/node-cli-box"
+}
