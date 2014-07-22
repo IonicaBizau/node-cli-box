@@ -9,7 +9,7 @@ var OS = require("os");
  * @function
  * @param {Object|String} options Object containing the options or a string
  * representing the size: `WIDTHxHEIGHT` (e.g. `10x20`)
- * @return
+ * @return {Object} The box instance
  */
 module.exports = function (options) {
 
@@ -98,4 +98,6 @@ module.exports = function (options) {
 
         return box;
     };
+
+    return self;
 };
