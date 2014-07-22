@@ -1,7 +1,8 @@
-# cli-box
+cli-box
+=======
 A library to generate ASCII boxes via NodeJS
 
-## Installation
+# Installation
 Run the following commands to download and install the application:
 
 ```sh
@@ -10,7 +11,7 @@ $ cd cli-box
 $ npm install
 ```
 
-## Example
+# Example
 ```js
 var Box = require("cli-box");
 
@@ -35,12 +36,23 @@ var b2 = new Box({
 console.log(b2.toString());
 ```
 
-## Methods
+# Methods
+## `new Box(options)`
+Creates a new instance of Box function
 
-### `new Box(options)`
-Creates a new `Box` instance.
+### Params:
+* **Object|String** *options* Object containing the options or a string
 
-## How to contribute
+### Return:
+* **Object** The box instance
+
+## toString()
+Returns the stringified box
+
+### Return:
+* **String** Stringified box
+
+# How to contribute
 
 1. File an issue in the repository, using the bug tracker, describing the
    contribution you'd like to make. This will help us to get you started on the
@@ -51,5 +63,5 @@ Creates a new `Box` instance.
 4. Open a pull request, and reference the initial issue in the pull request
    message.
 
-## License
+# License
 See the [LICENSE](./LICENSE) file.
