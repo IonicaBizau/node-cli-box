@@ -34,14 +34,26 @@ var b2 = new Box({
     }
 });
 console.log(b2.toString());
+
+var b3 = new Box("20x40", "I will be displayed inside! \n And I'm in a new line!");
+console.log(b3.toString());
+
+var b4 = new Box("30x20", {
+        text: "Box content" //The only required key (\n to break line)
+      , stretch: true, //Stretch box to fit text?
+      , autoEOL: true, //Break lines automatically?
+      , vAligh: "top", //Vertical align. Can be "top", "middle" or "bottom"
+      , hAlign: "right" //Horizontal align. Can be "left", "center" or "right"
+});
 ```
 
 # Methods
-## `new Box(options)`
+## `new Box(options, text)`
 Creates a new instance of Box function
 
 ### Params:
 * **Object|String** *options* Object containing the options or a string
+* **Object|String** *text* Object containing text and additional options or a string
 
 ### Return:
 * **Object** The box instance
