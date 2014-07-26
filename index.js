@@ -9,9 +9,11 @@ var OS = require("os");
  * @function
  * @param {Object|String} options Object containing the options or a string
  * representing the size: `WIDTHxHEIGHT` (e.g. `10x20`)
+ * @param {Object|String} Object containing text and options or a string
+ * to be displayed
  * @return {Object} The box instance
  */
-module.exports = function (options) {
+module.exports = function (options, text) {
 
     // Parse the options
     var w = options.width || options.w
@@ -29,6 +31,7 @@ module.exports = function (options) {
               , b: " "
             }
         }
+      , lines = []
       ;
 
     if (typeof options === "string" && options.split("x").length === 2) {
@@ -40,12 +43,39 @@ module.exports = function (options) {
             marks: {}
         }
     }
+    
+    // Calculate text position
+    if (typeof text === "string") {
+        var splits = text.split('\n');
+        
+        var textOffsetX, 
+            textOffsetY;
+        
+        if (splits.length < (h - 2)) {
+            textOffsetY = Math.floor((h / 2) - (splits.length / 2));
+        } else {
+            textOffsetY = 0;
+        }
+        
+        for (var i = 0; i < splits.length; i++) {
+            splits[i] = splits[i].trim();
+            if (splits[i].length < (w - 2)) {
+                textOffsetX = parseInt(((w - 2) / 2) - (splits[i].length / 2));
+            } else {
+                textOffsetX = 0;
+                splits[i] = splits[i].substr(0, w-5) + "...";
+            }
+            lines.push({ text: splits[i], offset: {x:textOffsetX, y:textOffsetY + i}});
+        }
+    }
 
     // Create settings
     var settings = {
             width: w
           , height: h
           , marks: {}
+          , lines: lines
+          , nextLine: 0
         }
       , marks = Object.keys(defaults.marks)
       ;
@@ -81,10 +111,25 @@ module.exports = function (options) {
         box += this.settings.marks.ne;
 
         // The other lines
+        var nextLine = this.settings.lines.shift();
+            
         for (var i = 0; i < this.settings.height; ++i) {
+            
+            while (i > nextLine.offset.y && this.settings.lines.length) {
+                nextLine = this.settings.lines.shift();
+            }
+            
             box += OS.EOL + this.settings.marks.w;
+            
             for (var ii = 0; ii < this.settings.width - 2; ++ii) {
-                box += this.settings.marks.b;
+                if (i == nextLine.offset.y 
+                    && ii >= nextLine.offset.x 
+                    && ii < (nextLine.offset.x + nextLine.text.length)
+                    && nextLine.text[ii - nextLine.offset.x] != " " ) {
+                    box += nextLine.text[ii - nextLine.offset.x];
+                } else {
+                    box += this.settings.marks.b;
+                }
             }
             box += this.settings.marks.e;
         }
