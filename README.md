@@ -40,11 +40,12 @@ console.log(b3.toString());
 
 var b4 = new Box("30x20", {
         text: "Box content" //The only required key (\n to break line)
-      , stretch: true, //Stretch box to fit text?
-      , autoEOL: true, //Break lines automatically?
-      , vAligh: "top", //Vertical align. Can be "top", "middle" or "bottom"
+      , stretch: true //Stretch box to fit text?
+      , autoEOL: true //Break lines automatically?
+      , vAlign: "top" //Vertical align. Can be "top", "middle" or "bottom"
       , hAlign: "right" //Horizontal align. Can be "left", "center" or "right"
 });
+console.log(b4.toString());
 ```
 
 # Methods

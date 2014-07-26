@@ -75,7 +75,6 @@ module.exports = function (options, text) {
 
             // Handle overflowing text
             if(line.text.length > (w - 2)) {
-                console.dir(line.text);
                 line.text = line.text.substr(0, w - 5) + "...";
             }
             return line;
@@ -101,11 +100,11 @@ module.exports = function (options, text) {
                 lines.push(line);
             }
         } else if (typeof text === "object") {
-            var stretch = text.stretch || false;
-            var autoEOL = text.autoEOL || false;
-            var hAlign = text.hAlign || undefined;
-            var vAlign = text.vAlign || undefined;
-            var splits = text.text.split('\n').map(function(val) { return val.trim(); });
+            var stretch = text.stretch || false
+              , autoEOL = text.autoEOL || false
+              , hAlign = text.hAlign || undefined
+              , vAlign = text.vAlign || undefined
+              , splits = text.text.split('\n').map(function(val) { return val.trim(); });
             // Stretch box to fit text (or console)
             if (stretch) {
                 var longest = splits.reduce(function (prev, curr) { return (prev.length > curr.length) ? prev : curr }).length;

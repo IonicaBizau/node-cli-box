@@ -20,6 +20,9 @@
     "node"
   ],
   "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "contributors": [
+    "Adam Paszke adam.paszke@gmail.com",
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IonicaBizau/node-cli-box/issues"
