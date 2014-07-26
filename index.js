@@ -171,7 +171,6 @@ module.exports = function (options, text) {
           , height: h
           , marks: {}
           , lines: lines
-          , nextLine: {}
         }
       , marks = Object.keys(defaults.marks)
       ;
