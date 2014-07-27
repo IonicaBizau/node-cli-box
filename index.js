@@ -16,9 +16,10 @@ var OS = require("os");
 module.exports = function (options, text) {
 
     // Parse the options
-    var w = options.width || options.w
+    var self = this
+      , w = options.width || options.w
       , h = options.height || options.h
-      , defaults = {
+      , defaults = self.defaults = {
             marks: {
                 nw: "+"
               , n:  "-"
@@ -34,6 +35,7 @@ module.exports = function (options, text) {
       , lines = []
       ;
 
+    // Handle 'x' in options parameter
     if (typeof options === "string" && options.split("x").length === 2) {
         var splits = options.split("x");
         w = parseInt(splits[0]);
@@ -196,7 +198,6 @@ module.exports = function (options, text) {
     }
 
     // left top corner
-    var self = this;
     self.settings = settings;
 
     /**
