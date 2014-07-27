@@ -13,7 +13,7 @@ var OS = require("os");
  * to be displayed
  * @return {Object} The box instance
  */
-module.exports = function Box(options, text) {
+function Box(options, text) {
 
     // Parse the options
     var self = this
@@ -254,7 +254,7 @@ module.exports = function Box(options, text) {
     };
 
     return self;
-};
+}
 
 // Default settings
 Box.defaults = {
@@ -270,3 +270,5 @@ Box.defaults = {
       , b: " "
     }
 };
+
+module.exports = Box;
