@@ -64,12 +64,19 @@ Creates a new instance of Box function
 ### Return:
 * **Object** The box instance
 
-## toString()
+## `myBox.toString()`
 Returns the stringified box
 
 ### Return:
 * **String** Stringified box
 
+# Changelog
+## `1.0.1`
+ - [Fill with text feature](https://github.com/IonicaBizau/node-cli-box/pull/1)
+ - Exports `defaults` in `Box.defaults`
+
+## `1.0.0`
+ - Initial release
 # How to contribute
 
 1. File an issue in the repository, using the bug tracker, describing the
