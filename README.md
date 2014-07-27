@@ -77,6 +77,7 @@ Returns the stringified box
 
 ## `1.0.0`
  - Initial release
+
 # How to contribute
 
 1. File an issue in the repository, using the bug tracker, describing the
