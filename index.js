@@ -13,25 +13,13 @@ var OS = require("os");
  * to be displayed
  * @return {Object} The box instance
  */
-module.exports = function (options, text) {
+module.exports = function Box(options, text) {
 
     // Parse the options
     var self = this
       , w = options.width || options.w
       , h = options.height || options.h
-      , defaults = self.defaults = {
-            marks: {
-                nw: "+"
-              , n:  "-"
-              , ne: "+"
-              , e:  "|"
-              , se: "+"
-              , s:  "-"
-              , sw: "+"
-              , w:  "|"
-              , b: " "
-            }
-        }
+      , defaults = Box.defaults
       , lines = []
       ;
 
@@ -266,4 +254,19 @@ module.exports = function (options, text) {
     };
 
     return self;
+};
+
+// Default settings
+Box.defaults = {
+    marks: {
+        nw: "+"
+      , n:  "-"
+      , ne: "+"
+      , e:  "|"
+      , se: "+"
+      , s:  "-"
+      , sw: "+"
+      , w:  "|"
+      , b: " "
+    }
 };
