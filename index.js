@@ -9,9 +9,11 @@ var OS = require("os");
  * @function
  * @param {Object|String} options Object containing the options or a string
  * representing the size: `WIDTHxHEIGHT` (e.g. `10x20`)
+ * @param {Object|String} text Object containing text and options or a string
+ * to be displayed
  * @return {Object} The box instance
  */
-module.exports = function (options) {
+module.exports = function (options, text) {
 
     // Parse the options
     var w = options.width || options.w
@@ -29,6 +31,7 @@ module.exports = function (options) {
               , b: " "
             }
         }
+      , lines = []
       ;
 
     if (typeof options === "string" && options.split("x").length === 2) {
@@ -40,12 +43,133 @@ module.exports = function (options) {
             marks: {}
         }
     }
+    
+    if (text) {
+        
+        var alignTextVertically = function(splits, mode) {
+            if (splits.length > h && !mode) mode = "top";
+            mode = (["middle", "top", "bottom"].indexOf(mode) > -1) ? mode : "middle";
+
+            if (mode == "middle") {
+                return Math.floor((h / 2) - (splits.length / 2));
+            } else if (mode == "top") {
+                return 0;
+            } else if (mode == "bottom") {
+                return h - splits.length;
+            }
+
+        }
+
+        var alignLineHorizontally = function(line, mode) {
+            mode = (["center", "left", "right"].indexOf(mode) > -1) ? mode : "center";
+
+            if (mode == "center") {
+                line.offset.x = parseInt(((w - 2) / 2) - (line.text.length / 2));
+            } else if (mode == "left") {
+                line.offset.x = 0;
+            } else if (mode == "right") {
+                line.offset.x = (w - 2) - line.text.length;
+            }
+            
+            if (line.offset.x < 0) line.offset.x = 0;
+
+            // Handle overflowing text
+            if(line.text.length > (w - 2)) {
+                line.text = line.text.substr(0, w - 5) + "...";
+            }
+            return line;
+        }
+        
+        var line, 
+            textOffsetY;
+        
+        // Divide text into lines and calculate position
+        if (typeof text === "string") {
+            var splits = text.split('\n').map(function(val) { return val.trim(); });
+
+            textOffsetY = alignTextVertically(splits);
+
+            for (var i = 0; i < splits.length; i++) {
+                line = {
+                    text: splits[i],
+                    offset: {
+                      y: textOffsetY + i
+                    }
+                };
+                line = alignLineHorizontally(line);
+                lines.push(line);
+            }
+        } else if (typeof text === "object") {
+            var stretch = text.stretch || false
+              , autoEOL = text.autoEOL || false
+              , hAlign = text.hAlign || undefined
+              , vAlign = text.vAlign || undefined
+              , splits = text.text.split('\n').map(function(val) { return val.trim(); });
+            // Stretch box to fit text (or console)
+            if (stretch) {
+                var longest = splits.reduce(function (prev, curr) { return (prev.length > curr.length) ? prev : curr }).length;
+                if (longest > (w - 2)) {
+                    if ((longest - 2) > process.stdout.columns) {
+                        w = process.stdout.columns;
+                    } else {
+                        w = longest + 2;
+                    }
+                }
+                h = (splits.length > h) ? splits.length : h;
+            }
+            
+            // Break lines automatically
+            if (autoEOL) {
+                for(var i = 0; i < splits.length; i++) {
+                    // If too long to fit
+                    if(splits[i].length > (w - 2)) {
+                        // Find a place to break line
+                        var ii = w - 2;
+                        while(ii > 0 && splits[i][ii] != " ") {
+                            ii--;
+                        }
+                        if (ii == 0) {
+                            ii = w - 2;
+                            while (ii < splits[i].length && splits[i][ii] != " ") {
+                                ii++;
+                            }
+                        }
+                        // Divide line
+                        if(ii > 0 && ii < splits[i].length) {
+                            var div1 = splits[i].substr(0, ii);
+                            var div2 = splits[i].slice(ii+1);
+                            splits.splice(i, 1, div1, div2);
+                        }
+                    }
+                }
+            }
+            
+            // Recalculate line number if necessary
+            if (stretch) h = (splits.length > h) ? splits.length : h;
+            
+            // Get vertical text offset
+            textOffsetY = alignTextVertically(splits, vAlign);
+            
+            // Push lines
+            for (var i = 0; i < splits.length; i++) {
+                line = {
+                    text: splits[i],
+                    offset: {
+                      y: textOffsetY + i
+                    }
+                };
+                line = alignLineHorizontally(line, hAlign);
+                lines.push(line);
+            }
+        }
+    }
 
     // Create settings
     var settings = {
             width: w
           , height: h
           , marks: {}
+          , lines: lines
         }
       , marks = Object.keys(defaults.marks)
       ;
@@ -81,10 +205,29 @@ module.exports = function (options) {
         box += this.settings.marks.ne;
 
         // The other lines
+        var nextLine = (this.settings.lines.length) ? this.settings.lines.shift() : undefined;
+            
         for (var i = 0; i < this.settings.height; ++i) {
+            
+            // Get next line to display if one exists
+            while (nextLine && i > nextLine.offset.y && this.settings.lines.length) {
+                nextLine = this.settings.lines.shift();
+            }
+            
             box += OS.EOL + this.settings.marks.w;
+            
             for (var ii = 0; ii < this.settings.width - 2; ++ii) {
-                box += this.settings.marks.b;
+                
+                if (nextLine                                            // there is something to display
+                    && i == nextLine.offset.y                           // it's the correct line
+                    && ii >= nextLine.offset.x                          // it's after the x offset
+                    && ii < (nextLine.offset.x + nextLine.text.length)  // the text hasn't ended yet
+                    && nextLine.text[ii - nextLine.offset.x] != " ") {  // it's not a whitespace
+                    
+                    box += nextLine.text[ii - nextLine.offset.x];
+                } else {
+                    box += this.settings.marks.b;
+                }
             }
             box += this.settings.marks.e;
         }

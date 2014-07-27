@@ -19,3 +19,15 @@ var b2 = new Box({
     }
 });
 console.log(b2.toString());
+
+var b3 = new Box("20x40", "I will be displayed inside! \n And I'm in a new line!");
+console.log(b3.toString());
+
+var b4 = new Box("30x20", {
+        text: "Box content"
+      , stretch: true
+      , autoEOL: true
+      , vAlign: "top"
+      , hAlign: "right"
+});
+console.log(b4.toString());
