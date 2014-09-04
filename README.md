@@ -71,6 +71,9 @@ Returns the stringified box
 * **String** Stringified box
 
 # Changelog
+## `1.1.0`
+ - Handle colored text ([#3](https://github.com/IonicaBizau/node-cli-box/pull/3)) - Thanks [@wesolyromek](https://github.com/wesolyromek)
+
 ## `1.0.1`
  - [Fill with text feature](https://github.com/IonicaBizau/node-cli-box/pull/1)
  - Exports `defaults` in `Box.defaults`
