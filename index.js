@@ -257,11 +257,10 @@ function Box(options, text) {
                 nextLine = this.settings.lines.shift();
             }
 
-            box += OS.EOL + this.settings.marks.w;
+            box += OS.EOL + this.settings.marks.w + lastCode;
             
 
             for (var ii = 0; ii < this.settings.width - 2; ++ii) {
-                box += lastCode;
 
                 // there is something to display
                 if (nextLine
@@ -270,9 +269,7 @@ function Box(options, text) {
                     // it's after the x offset
                     && ii >= nextLine.offset.x
                     // the text hasn't ended yet
-                    && ii < (nextLine.offset.x + nextLine.text.length)
-                    // it's not a whitespace
-                    && nextLine.text[ii - nextLine.offset.x] != " ") {
+                    && ii < (nextLine.offset.x + nextLine.text.length)) {
                     
                     // Display escape codes
                     while (nextLine.escapeCodes.length && (ii - nextLine.offset.x) == nextLine.escapeCodes[0].index) {
@@ -282,14 +279,14 @@ function Box(options, text) {
                     
                     box += nextLine.text[ii - nextLine.offset.x];
                     
-                    // Display escape codes
-                    while (nextLine.escapeCodes.length && (ii == (nextLine.offset.x + nextLine.text.length - 1))) {
-                        lastCode = nextLine.escapeCodes.shift().code;
-                        box += lastCode;
-                    }
                 } else {
                     box += this.settings.marks.b;
                 }
+            }
+            // Display remaining codes
+            while (nextLine.escapeCodes.length && (i == nextLine.offset.y)) {
+                lastCode = nextLine.escapeCodes.shift().code;
+                box += lastCode;
             }
             box += '\u001b[0m' + this.settings.marks.e;
         }
