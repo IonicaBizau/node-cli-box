@@ -1,4 +1,4 @@
-cli-box
+CLI Box
 =======
 A library to generate ASCII boxes via NodeJS
 
