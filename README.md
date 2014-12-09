@@ -71,6 +71,11 @@ Returns the stringified box
 * **String** Stringified box
 
 # Changelog
+## `2.0.0`
+ - Added `ansi-parser` as dependency.
+ - Use `ansi-parser` to work with strings containing ANSI styles.
+ - Minor syntax changes.
+
 ## `1.1.0`
  - Handle colored text ([#3](https://github.com/IonicaBizau/node-cli-box/pull/3)) - Thanks [@wesolyromek](https://github.com/wesolyromek)
 
