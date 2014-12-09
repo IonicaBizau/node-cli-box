@@ -1,5 +1,7 @@
 // Dependencies
-var OS = require("os");
+var OS = require("os")
+  , AnsiParser = require("ansi-parser")
+  ;
 
 /**
  * Box
@@ -14,28 +16,34 @@ var OS = require("os");
  * @return {Object} The box instance
  */
 function Box(options, text) {
-    
+
     // Parse the options
     var self = this
       , w = options.width || options.w
       , h = options.height || options.h
       , defaults = Box.defaults
       , lines = []
+      , line = ""
+      , splits = null
+      , noAnsiText = ""
+      , textOffsetY
+      , i
       ;
 
-    // Handle 'x' in options parameter
+    // Handle "x" in options parameter
     if (typeof options === "string" && options.split("x").length === 2) {
-        var splits = options.split("x");
+        splits = options.split("x");
         w = parseInt(splits[0]);
         h = parseInt(splits[1]);
 
         options = {
             marks: {}
-        }
+        };
     }
 
     // Handle text parameter
     if (text) {
+        noAnsiText = AnsiParser.removeAnsi(text.text || text);
 
         var alignTextVertically = function (splits, mode) {
             if (splits.length > h && !mode) mode = "top";
@@ -66,45 +74,43 @@ function Box(options, text) {
             if (line.offset.x < 0) line.offset.x = 0;
 
             // Handle overflowing text
-            if(line.text.replace(/\u001b\[.*?m/g, "").length > (w - 2)) {
+            if(AnsiParser.removeAnsi(line.text).length > (w - 2)) {
                 line.text = line.text.substr(0, w - 5) + "...";
-                
             }
+
             return line;
         };
 
-        var line
-          , textOffsetY
-          ;
-        
-        var escapeLine = function(line) {
-            var escapeCodes = (function() {
-                var length = line.text.length
-                  , results = []
-                  , lineLowerCase = line.text.toLowerCase()
-                  , index;
+        var escapeLine = function (line) {
+            var length = line.text.length
+              , results = []
+              , lineText = line.text
+              , index
+              ;
 
-                while ((index = lineLowerCase.indexOf('\u001b')) > -1) {
-                    results.push({index: index, code:lineLowerCase.substr(index, lineLowerCase.indexOf('m', index)-index+1)});
-                    line.text = line.text.replace(/\u001b\[.*?m/, "");
-                    lineLowerCase = lineLowerCase.replace(/\u001b\[.*?m/, "");
-                }
-                return results;
-            })();
-            line.escapeCodes = escapeCodes;
+            while ((index = lineText.indexOf("\u001b")) > -1) {
+                results.push({
+                    index: index
+                  , code: lineText.substr(index, lineText.indexOf("m", index) - index + 1)
+                });
+                lineText = lineText.replace(/\u001b\[.*?m/, "");
+                line.text = lineText;
+            }
+
+            line.escapeCodes = results;
             return;
-        }
+        };
 
         // Divide text into lines and calculate position
         if (typeof text === "string") {
 
-            var splits = text.split("\n").map(function (val) {
+            splits = text.split("\n").map(function (val) {
                 return val.trim();
             });
 
             textOffsetY = alignTextVertically(splits);
 
-            for (var i = 0; i < splits.length; ++i) {
+            for (i = 0; i < splits.length; ++i) {
                 line = {
                     text: splits[i]
                   , offset: {
@@ -115,23 +121,26 @@ function Box(options, text) {
                 line = alignLineHorizontally(line);
                 lines.push(line);
             }
-            
+
         } else if (typeof text === "object") {
 
             var stretch = text.stretch || false
               , autoEOL = text.autoEOL || false
               , hAlign = text.hAlign || undefined
               , vAlign = text.vAlign || undefined
-              , splits = text.text.split("\n").map(function (val) {
-                    return val.trim();
-                })
               ;
+
+            splits = text.text.split("\n").map(function (val) {
+                return val.trim();
+            });
 
             // Stretch box to fit text (or console)
             if (stretch) {
-                var longest = splits.reduce(function (prev, curr) {
-                    return (prev.replace(/\u001b\[.*?m/g, "").length > curr.replace(/\u001b\[.*?m/g, "").length) ? prev : curr;
-                }).replace(/\u001b\[.*?m/g, "").length;
+
+                var longest = AnsiParser.removeAnsi(splits.reduce(function (prev, curr) {
+                    return (AnsiParser.removeAnsi(prev).length > AnsiParser.removeAnsi(curr).length) ? prev : curr;
+                })).length;
+
                 if (longest > (w - 2)) {
                     if ((longest - 2) > process.stdout.columns) {
                         w = process.stdout.columns;
@@ -144,23 +153,25 @@ function Box(options, text) {
 
             // Break lines automatically
             if (autoEOL) {
-                for(var i = 0; i < splits.length; ++i) {
+                for(i = 0; i < splits.length; ++i) {
+                    var escaped = AnsiParser.removeAnsi(splits[i]);
                     // If too long to fit
-                    if(splits[i].replace(/\u001b\[.*?m/g, "").length > (w - 2)) {
+                    if(escaped.length > (w - 2)) {
                         // Find a place to break line
                         var actualPlace = 0
-                          , escaped = splits[i].replace(/\u001b\[.*?m/g, "")
                           , outsideCode = true
                           , escapedIndex = 0
-                          , ii;
+                          , ii
+                          ;
+
                         // Find possible places for line breaks in pure text
-                        ii = escaped.lastIndexOf(' ', w - 2);
-                        ii = (ii == -1) ? escaped.indexOf(' ', w - 2) : ii;
+                        ii = escaped.lastIndexOf(" ", w - 2);
+                        ii = (ii == -1) ? escaped.indexOf(" ", w - 2) : ii;
                         // Find actual index of line break
                         while(escapedIndex != ii && actualPlace < splits[i].length) {
                             // Omit colour codes
-                            if(splits[i][actualPlace] == '\u001b') {
-                                while(splits[i][actualPlace] != 'm')
+                            if(splits[i][actualPlace] == "\u001b") {
+                                while(splits[i][actualPlace] != "m")
                                     actualPlace++;
                             }
                             if(splits[i][actualPlace] == escaped[escapedIndex] && outsideCode) {
@@ -168,15 +179,15 @@ function Box(options, text) {
                             }
                             actualPlace++;
                         }
-                        
+
                         // Divide line
                         if(ii > 0 && ii < splits[i].length) {
                             var div1 = splits[i].substr(0, actualPlace)
                               , div2 = splits[i].slice(actualPlace).trim()
                               ;
                             // Trim whitespace after escape code
-                            if(div2[0] == '\u001b') {
-                                div2 = div2.substr(0, div2.indexOf(' ')) + div2.slice(div2.indexOf(' ')+1);
+                            if(div2[0] == "\u001b") {
+                                div2 = div2.substr(0, div2.indexOf(" ")) + div2.slice(div2.indexOf(" ")+1);
                             }
                             splits.splice(i, 1, div1, div2);
                         }
@@ -191,7 +202,7 @@ function Box(options, text) {
             textOffsetY = alignTextVertically(splits, vAlign);
 
             // Push lines
-            for (var i = 0; i < splits.length; ++i) {
+            for (i = 0; i < splits.length; ++i) {
                 line = {
                     text: splits[i]
                   , offset: {
@@ -216,7 +227,7 @@ function Box(options, text) {
       ;
 
     // Merge marks
-    for (var i = 0; i < marks.length; ++i) {
+    for (i = 0; i < marks.length; ++i) {
         var cMark = marks[i];
         settings.marks[cMark] = options.marks[cMark] || defaults.marks[cMark];
     }
@@ -237,7 +248,7 @@ function Box(options, text) {
 
         // Top
         box += this.settings.marks.nw;
-        for (var i = 0; i < this.settings.width - 2; ++i) {
+        for (i = 0; i < this.settings.width - 2; ++i) {
             box += this.settings.marks.n;
         }
 
@@ -245,20 +256,19 @@ function Box(options, text) {
         box += this.settings.marks.ne;
 
         // The other lines
-        var nextLine = this.settings.lines.length
-                       ? this.settings.lines.shift() : undefined;
-        var lastCode = '';
+        var nextLine = this.settings.lines.length ? this.settings.lines.shift() : undefined
+          , lastCode = ""
+          ;
 
-        for (var i = 0; i < this.settings.height; ++i) {
+        for (i = 0; i < this.settings.height; ++i) {
 
             // Get next line to display if one exists
-            while (nextLine && i > nextLine.offset.y
-                   && this.settings.lines.length) {
+            while (nextLine && i > nextLine.offset.y && this.settings.lines.length) {
                 nextLine = this.settings.lines.shift();
             }
 
             box += OS.EOL + this.settings.marks.w + lastCode;
-            
+
 
             for (var ii = 0; ii < this.settings.width - 2; ++ii) {
 
@@ -270,30 +280,31 @@ function Box(options, text) {
                     && ii >= nextLine.offset.x
                     // the text hasn't ended yet
                     && ii < (nextLine.offset.x + nextLine.text.length)) {
-                    
+
                     // Display escape codes
                     while (nextLine.escapeCodes.length && (ii - nextLine.offset.x) == nextLine.escapeCodes[0].index) {
                         lastCode = nextLine.escapeCodes.shift().code;
                         box += lastCode;
                     }
-                    
+
                     box += nextLine.text[ii - nextLine.offset.x];
-                    
+
                 } else {
                     box += this.settings.marks.b;
                 }
             }
+
             // Display remaining codes
-            while (nextLine.escapeCodes.length && (i == nextLine.offset.y)) {
+            while (nextLine && nextLine.escapeCodes.length && (i == nextLine.offset.y)) {
                 lastCode = nextLine.escapeCodes.shift().code;
                 box += lastCode;
             }
-            box += '\u001b[0m' + this.settings.marks.e;
+            box += "\u001b[0m" + this.settings.marks.e;
         }
 
         // Bottom
         box += OS.EOL + this.settings.marks.sw;
-        for (var i = 0; i < this.settings.width - 2; ++i) {
+        for (i = 0; i < this.settings.width - 2; ++i) {
             box += this.settings.marks.s;
         }
         box += this.settings.marks.se;
