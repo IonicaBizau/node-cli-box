@@ -36,7 +36,7 @@ function Box(options, text) {
         h = process.stdout.rows - 3;
         w = process.stdout.columns;
         // Compensate for Windows bug, see node-cli-update/issue #4 
-        if (/^win(32|64)$/.test(require('os').platform())) {
+        if (/^win(32|64)$/.test(OS.platform())) {
           w -= 1;
         }
     }
