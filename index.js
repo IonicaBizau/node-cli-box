@@ -14,7 +14,7 @@ var OS = require("os");
  * @return {Object} The box instance
  */
 function Box(options, text) {
-    
+
     // Parse the options
     var self = this
       , w = options.width || options.w
@@ -68,7 +68,7 @@ function Box(options, text) {
             // Handle overflowing text
             if(line.text.replace(/\u001b\[.*?m/g, "").length > (w - 2)) {
                 line.text = line.text.substr(0, w - 5) + "...";
-                
+
             }
             return line;
         };
@@ -76,7 +76,7 @@ function Box(options, text) {
         var line
           , textOffsetY
           ;
-        
+
         var escapeLine = function(line) {
             var escapeCodes = (function() {
                 var length = line.text.length
@@ -115,7 +115,7 @@ function Box(options, text) {
                 line = alignLineHorizontally(line);
                 lines.push(line);
             }
-            
+
         } else if (typeof text === "object") {
 
             var stretch = text.stretch || false
@@ -168,7 +168,7 @@ function Box(options, text) {
                             }
                             actualPlace++;
                         }
-                        
+
                         // Divide line
                         if(ii > 0 && ii < splits[i].length) {
                             var div1 = splits[i].substr(0, actualPlace)
@@ -258,7 +258,7 @@ function Box(options, text) {
             }
 
             box += OS.EOL + this.settings.marks.w + lastCode;
-            
+
 
             for (var ii = 0; ii < this.settings.width - 2; ++ii) {
 
@@ -270,15 +270,15 @@ function Box(options, text) {
                     && ii >= nextLine.offset.x
                     // the text hasn't ended yet
                     && ii < (nextLine.offset.x + nextLine.text.length)) {
-                    
+
                     // Display escape codes
                     while (nextLine.escapeCodes.length && (ii - nextLine.offset.x) == nextLine.escapeCodes[0].index) {
                         lastCode = nextLine.escapeCodes.shift().code;
                         box += lastCode;
                     }
-                    
+
                     box += nextLine.text[ii - nextLine.offset.x];
-                    
+
                 } else {
                     box += this.settings.marks.b;
                 }
