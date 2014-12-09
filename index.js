@@ -32,25 +32,25 @@ function Box(options, text) {
       ;
 
     if (fullscreen) {
-      // 3 = 1 (top border) + 1 (bottom border) + 1 (bottom padding) 
-      h = process.stdout.rows - 3;
-      w = process.stdout.columns;
-      // Compensate for Windows bug, see node-cli-update/issue #4 
-      if (/^win(32|64)$/.test(require('os').platform())) {
-        w -= 1;
-      }
+        // 3 = 1 (top border) + 1 (bottom border) + 1 (bottom padding) 
+        h = process.stdout.rows - 3;
+        w = process.stdout.columns;
+        // Compensate for Windows bug, see node-cli-update/issue #4 
+        if (/^win(32|64)$/.test(require('os').platform())) {
+          w -= 1;
+        }
     }
     else {
-      // Handle "x" in options parameter
-      if (typeof options === "string" && options.split("x").length === 2) {
-          splits = options.split("x");
-          w = parseInt(splits[0]);
-          h = parseInt(splits[1]);
+        // Handle "x" in options parameter
+        if (typeof options === "string" && options.split("x").length === 2) {
+            splits = options.split("x");
+            w = parseInt(splits[0]);
+            h = parseInt(splits[1]);
       
-          options = {
-              marks: {}
-          };
-      }
+            options = {
+                marks: {}
+            };
+        }
     }
 
     // Handle text parameter
