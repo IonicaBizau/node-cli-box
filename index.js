@@ -283,8 +283,9 @@ function Box(options, text) {
                     box += this.settings.marks.b;
                 }
             }
+
             // Display remaining codes
-            while (nextLine.escapeCodes.length && (i == nextLine.offset.y)) {
+            while (nextLine && nextLine.escapeCodes.length && (i == nextLine.offset.y)) {
                 lastCode = nextLine.escapeCodes.shift().code;
                 box += lastCode;
             }
