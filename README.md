@@ -22,8 +22,8 @@ console.log(b1.toString());
 
 // Set marks
 var b2 = new Box({
-    w: 20
-  , h: 20
+    w: 10
+  , h: 10
   , marks: {
         nw: "╔"
       , n:  "══"
@@ -39,7 +39,7 @@ var b2 = new Box({
 console.log(b2.toString());
 
 // Box with text
-var b3 = new Box("20x40", "I will be displayed inside! \n And I'm in a new line!");
+var b3 = new Box("20x10", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
 console.log(b3.toString());
 
 // Box with aligned text to top-right
@@ -52,6 +52,10 @@ var b4 = new Box("30x20", {
 });
 console.log(b4.toString());
 ```
+
+The result will be:
+
+![](http://i.imgur.com/lZa0XOB.png)
 
 # Methods
 ## `new Box(options, text)`
@@ -71,6 +75,10 @@ Returns the stringified box
 * **String** Stringified box
 
 # Changelog
+## `2.0.1`
+ - Updated docs.
+ - Smaller boxes in tests.
+
 ## `2.0.0`
  - Added `ansi-parser` as dependency.
  - Use `ansi-parser` to work with strings containing ANSI styles.

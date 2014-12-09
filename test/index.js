@@ -7,8 +7,8 @@ console.log(b1.toString());
 
 // Set marks
 var b2 = new Box({
-    w: 20
-  , h: 20
+    w: 10
+  , h: 10
   , marks: {
         nw: "╔"
       , n:  "══"
@@ -24,7 +24,7 @@ var b2 = new Box({
 console.log(b2.toString());
 
 // Box with text
-var b3 = new Box("20x40", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
+var b3 = new Box("20x10", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
 console.log(b3.toString());
 
 // Box with aligned text to top-right
