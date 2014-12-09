@@ -36,3 +36,6 @@ var b4 = new Box("30x20", {
   , hAlign: "right"
 });
 console.log(b4.toString());
+
+var b5 = new Box({fullscreen: true, marks: {}}, "Hello World!");
+console.log(b5.toString());
