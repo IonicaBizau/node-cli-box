@@ -23,22 +23,27 @@ function Box(options, text) {
       , h = options.height || options.h
       , defaults = Box.defaults
       , lines = []
+      , line = ""
+      , splits = null
+      , noAnsiText = ""
+      , textOffsetY
+      , i
       ;
 
     // Handle 'x' in options parameter
     if (typeof options === "string" && options.split("x").length === 2) {
-        var splits = options.split("x");
+        splits = options.split("x");
         w = parseInt(splits[0]);
         h = parseInt(splits[1]);
 
         options = {
             marks: {}
-        }
+        };
     }
 
     // Handle text parameter
     if (text) {
-        var noAnsiText = AnsiParser.removeAnsi(text.text || text);
+        noAnsiText = AnsiParser.removeAnsi(text.text || text);
 
         var alignTextVertically = function (splits, mode) {
             if (splits.length > h && !mode) mode = "top";
@@ -76,44 +81,36 @@ function Box(options, text) {
             return line;
         };
 
-        var line
-          , textOffsetY
-          ;
+        var escapeLine = function (line) {
+            var length = line.text.length
+              , results = []
+              , lineText = line.text
+              , index
+              ;
 
-        var escapeLine = function(line) {
-            var escapeCodes = (function() {
-                var length = line.text.length
-                  , results = []
-                  , lineText = line.text
-                  , index
-                  ;
+            while ((index = lineText.indexOf('\u001b')) > -1) {
+                results.push({
+                    index: index
+                  , code: lineText.substr(index, lineText.indexOf('m', index) - index + 1)
+                });
+                lineText = lineText.replace(/\u001b\[.*?m/, "");
+                line.text = lineText;
+            }
 
-                while ((index = lineText.indexOf('\u001b')) > -1) {
-                    results.push({
-                        index: index
-                      , code: lineText.substr(index, lineText.indexOf('m', index) - index + 1)
-                    });
-                    lineText = lineText.replace(/\u001b\[.*?m/, "");
-                    line.text = lineText;
-                }
-
-                return results;
-            })();
-
-            line.escapeCodes = escapeCodes;
+            line.escapeCodes = results;
             return;
-        }
+        };
 
         // Divide text into lines and calculate position
         if (typeof text === "string") {
 
-            var splits = text.split("\n").map(function (val) {
+            splits = text.split("\n").map(function (val) {
                 return val.trim();
             });
 
             textOffsetY = alignTextVertically(splits);
 
-            for (var i = 0; i < splits.length; ++i) {
+            for (i = 0; i < splits.length; ++i) {
                 line = {
                     text: splits[i]
                   , offset: {
@@ -131,10 +128,11 @@ function Box(options, text) {
               , autoEOL = text.autoEOL || false
               , hAlign = text.hAlign || undefined
               , vAlign = text.vAlign || undefined
-              , splits = text.text.split("\n").map(function (val) {
-                    return val.trim();
-                })
               ;
+
+            splits = text.text.split("\n").map(function (val) {
+                return val.trim();
+            });
 
             // Stretch box to fit text (or console)
             if (stretch) {
@@ -155,7 +153,7 @@ function Box(options, text) {
 
             // Break lines automatically
             if (autoEOL) {
-                for(var i = 0; i < splits.length; ++i) {
+                for(i = 0; i < splits.length; ++i) {
                     var escaped = AnsiParser.removeAnsi(splits[i]);
                     // If too long to fit
                     if(escaped.length > (w - 2)) {
@@ -204,7 +202,7 @@ function Box(options, text) {
             textOffsetY = alignTextVertically(splits, vAlign);
 
             // Push lines
-            for (var i = 0; i < splits.length; ++i) {
+            for (i = 0; i < splits.length; ++i) {
                 line = {
                     text: splits[i]
                   , offset: {
@@ -216,7 +214,6 @@ function Box(options, text) {
                 lines.push(line);
             }
         }
-
     }
 
     // Create settings
@@ -230,7 +227,7 @@ function Box(options, text) {
       ;
 
     // Merge marks
-    for (var i = 0; i < marks.length; ++i) {
+    for (i = 0; i < marks.length; ++i) {
         var cMark = marks[i];
         settings.marks[cMark] = options.marks[cMark] || defaults.marks[cMark];
     }
@@ -251,7 +248,7 @@ function Box(options, text) {
 
         // Top
         box += this.settings.marks.nw;
-        for (var i = 0; i < this.settings.width - 2; ++i) {
+        for (i = 0; i < this.settings.width - 2; ++i) {
             box += this.settings.marks.n;
         }
 
@@ -259,15 +256,14 @@ function Box(options, text) {
         box += this.settings.marks.ne;
 
         // The other lines
-        var nextLine = this.settings.lines.length
-                       ? this.settings.lines.shift() : undefined;
-        var lastCode = '';
+        var nextLine = this.settings.lines.length ? this.settings.lines.shift() : undefined
+          , lastCode = ''
+          ;
 
-        for (var i = 0; i < this.settings.height; ++i) {
+        for (i = 0; i < this.settings.height; ++i) {
 
             // Get next line to display if one exists
-            while (nextLine && i > nextLine.offset.y
-                   && this.settings.lines.length) {
+            while (nextLine && i > nextLine.offset.y && this.settings.lines.length) {
                 nextLine = this.settings.lines.shift();
             }
 
@@ -308,7 +304,7 @@ function Box(options, text) {
 
         // Bottom
         box += OS.EOL + this.settings.marks.sw;
-        for (var i = 0; i < this.settings.width - 2; ++i) {
+        for (i = 0; i < this.settings.width - 2; ++i) {
             box += this.settings.marks.s;
         }
         box += this.settings.marks.se;
