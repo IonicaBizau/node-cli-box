@@ -1,5 +1,7 @@
 // Dependencies
-var OS = require("os");
+var OS = require("os")
+  , AnsiParser = require("ansi-parser")
+  ;
 
 /**
  * Box
@@ -36,6 +38,7 @@ function Box(options, text) {
 
     // Handle text parameter
     if (text) {
+        var noAnsiText = AnsiParser.removeAnsi(text.text || text);
 
         var alignTextVertically = function (splits, mode) {
             if (splits.length > h && !mode) mode = "top";
@@ -66,10 +69,10 @@ function Box(options, text) {
             if (line.offset.x < 0) line.offset.x = 0;
 
             // Handle overflowing text
-            if(line.text.replace(/\u001b\[.*?m/g, "").length > (w - 2)) {
+            if(AnsiParser.removeAnsi(line.text).length > (w - 2)) {
                 line.text = line.text.substr(0, w - 5) + "...";
-
             }
+
             return line;
         };
 
@@ -81,16 +84,22 @@ function Box(options, text) {
             var escapeCodes = (function() {
                 var length = line.text.length
                   , results = []
-                  , lineLowerCase = line.text.toLowerCase()
-                  , index;
+                  , lineText = line.text
+                  , index
+                  ;
 
-                while ((index = lineLowerCase.indexOf('\u001b')) > -1) {
-                    results.push({index: index, code:lineLowerCase.substr(index, lineLowerCase.indexOf('m', index)-index+1)});
-                    line.text = line.text.replace(/\u001b\[.*?m/, "");
-                    lineLowerCase = lineLowerCase.replace(/\u001b\[.*?m/, "");
+                while ((index = lineText.indexOf('\u001b')) > -1) {
+                    results.push({
+                        index: index
+                      , code: lineText.substr(index, lineText.indexOf('m', index) - index + 1)
+                    });
+                    lineText = lineText.replace(/\u001b\[.*?m/, "");
+                    line.text = lineText;
                 }
+
                 return results;
             })();
+
             line.escapeCodes = escapeCodes;
             return;
         }
@@ -129,9 +138,11 @@ function Box(options, text) {
 
             // Stretch box to fit text (or console)
             if (stretch) {
-                var longest = splits.reduce(function (prev, curr) {
-                    return (prev.replace(/\u001b\[.*?m/g, "").length > curr.replace(/\u001b\[.*?m/g, "").length) ? prev : curr;
-                }).replace(/\u001b\[.*?m/g, "").length;
+
+                var longest = AnsiParser.removeAnsi(splits.reduce(function (prev, curr) {
+                    return (AnsiParser.removeAnsi(prev).length > AnsiParser.removeAnsi(curr).length) ? prev : curr;
+                })).length;
+
                 if (longest > (w - 2)) {
                     if ((longest - 2) > process.stdout.columns) {
                         w = process.stdout.columns;
@@ -145,14 +156,16 @@ function Box(options, text) {
             // Break lines automatically
             if (autoEOL) {
                 for(var i = 0; i < splits.length; ++i) {
+                    var escaped = AnsiParser.removeAnsi(splits[i]);
                     // If too long to fit
-                    if(splits[i].replace(/\u001b\[.*?m/g, "").length > (w - 2)) {
+                    if(escaped.length > (w - 2)) {
                         // Find a place to break line
                         var actualPlace = 0
-                          , escaped = splits[i].replace(/\u001b\[.*?m/g, "")
                           , outsideCode = true
                           , escapedIndex = 0
-                          , ii;
+                          , ii
+                          ;
+
                         // Find possible places for line breaks in pure text
                         ii = escaped.lastIndexOf(' ', w - 2);
                         ii = (ii == -1) ? escaped.indexOf(' ', w - 2) : ii;
@@ -203,6 +216,7 @@ function Box(options, text) {
                 lines.push(line);
             }
         }
+
     }
 
     // Create settings
