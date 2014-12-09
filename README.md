@@ -55,7 +55,7 @@ console.log(b4.toString());
 
 The result will be:
 
-![](http://i.imgur.com/lZa0XOB.png)
+![](http://i.imgur.com/425gC67.png)
 
 # Methods
 ## `new Box(options, text)`
