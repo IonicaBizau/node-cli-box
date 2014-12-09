@@ -3,12 +3,9 @@ CLI Box
 A library to generate ASCII boxes via NodeJS
 
 # Installation
-Run the following commands to download and install the application:
 
 ```sh
-$ git clone git@github.com:IonicaBizau/node-cli-box.git cli-box
-$ cd cli-box
-$ npm install
+$ npm install cli-box
 ```
 
 # Example
@@ -57,24 +54,46 @@ The result will be:
 
 ![](http://i.imgur.com/425gC67.png)
 
-# Methods
-## `new Box(options, text)`
-Creates a new instance of Box function
+# Documentation
+## `CliBox(options, text)`
+Creates a new instance of CliBox function.
 
-### Params:
-* **Object|String** *options* Object containing the options or a string
-* **Object|String** *text* Object containing text and additional options or a string
+### Params
+- **Object|String** `options`: A string representing the size: `WIDTHxHEIGHT` (e.g. `10x20`) or an object:
+ - `width` or `w` (Number): The box width.
+ - `height` or `h` (Number): The box height.
+ - `fullscreen` (Boolean): If `true`, the box will have full size (default: `false`).
+ - `marks` (Object): An object containing mark characters. Default:
+    - `nw`: `"+"`
+    - `n`: `"-"`
+    - `ne`: `"+"`
+    - `e`: `"|"`
+    - `se`: `"+"`
+    - `s`: `"-"`
+    - `sw`: `"+"`
+    - `w`: `"|"`
+    - `b`: `" "`
 
-### Return:
-* **Object** The box instance
+- **Object|String** `text`: A string to be displayed or an object:
+ - `text` (String): The text to be displayed.
+ - `stretch` (Boolean): Stretch box to fix text (default: `false`).
+ - `autoEOL` (Boolean): Break lines automatically (default: `false`).
+ - `hAlign` (String): Horizontal alignement (default: `"middle"`). It can take one of the values: `"left"`, `"middle"`, `"right"`.
+ - `vAlign` (String): Vertical alignement (default: `"center"`). It can take one of the values: `"top"`, `"center"`, `"bottom"`.
 
-## `myBox.toString()`
-Returns the stringified box
+### Return
+- **Object** The CliBox instance.
 
-### Return:
-* **String** Stringified box
+## `toString()`
+Returns the stringified box.
+
+### Return
+- **String** Stringified box string.
 
 # Changelog
+## `2.1.1`
+ - Added `fullscreen` option.
+
 ## `2.0.1`
  - Updated docs.
  - Smaller boxes in tests.

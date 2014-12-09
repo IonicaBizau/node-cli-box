@@ -4,18 +4,38 @@ var OS = require("os")
   ;
 
 /**
- * Box
- * Creates a new instance of Box function
+ * CliBox
+ * Creates a new instance of CliBox function.
  *
- * @name exports
+ * @name CliBox
  * @function
- * @param {Object|String} options Object containing the options or a string
- * representing the size: `WIDTHxHEIGHT` (e.g. `10x20`)
- * @param {Object|String} text Object containing text and options or a string
- * to be displayed
- * @return {Object} The box instance
+ * @param {Object|String} options A string representing the size: `WIDTHxHEIGHT` (e.g. `10x20`) or an object:
+ *
+ *  - `width` or `w` (Number): The box width.
+ *  - `height` or `h` (Number): The box height.
+ *  - `fullscreen` (Boolean): If `true`, the box will have full size (default: `false`).
+ *  - `marks` (Object): An object containing mark characters. Default:
+ *     - `nw`: `"+"`
+ *     - `n`: `"-"`
+ *     - `ne`: `"+"`
+ *     - `e`: `"|"`
+ *     - `se`: `"+"`
+ *     - `s`: `"-"`
+ *     - `sw`: `"+"`
+ *     - `w`: `"|"`
+ *     - `b`: `" "`
+ *
+ * @param {Object|String} text A string to be displayed or an object:
+ *
+ *  - `text` (String): The text to be displayed.
+ *  - `stretch` (Boolean): Stretch box to fix text (default: `false`).
+ *  - `autoEOL` (Boolean): Break lines automatically (default: `false`).
+ *  - `hAlign` (String): Horizontal alignement (default: `"middle"`). It can take one of the values: `"left"`, `"middle"`, `"right"`.
+ *  - `vAlign` (String): Vertical alignement (default: `"center"`). It can take one of the values: `"top"`, `"center"`, `"bottom"`.
+ *
+ * @return {Object} The CliBox instance.
  */
-function Box(options, text) {
+function CliBox(options, text) {
 
     // Parse the options
     var self = this
@@ -32,10 +52,10 @@ function Box(options, text) {
       ;
 
     if (fullscreen) {
-        // 3 = 1 (top border) + 1 (bottom border) + 1 (bottom padding) 
+        // 3 = 1 (top border) + 1 (bottom border) + 1 (bottom padding)
         h = process.stdout.rows - 3;
         w = process.stdout.columns;
-        // Compensate for Windows bug, see node-cli-update/issue #4 
+        // Compensate for Windows bug, see node-cli-update/issue #4
         if (/^win(32|64)$/.test(OS.platform())) {
           w -= 1;
         }
@@ -46,7 +66,7 @@ function Box(options, text) {
             splits = options.split("x");
             w = parseInt(splits[0]);
             h = parseInt(splits[1]);
-      
+
             options = {
                 marks: {}
             };
@@ -249,11 +269,11 @@ function Box(options, text) {
 
     /**
      * toString
-     * Returns the stringified box
+     * Returns the stringified box.
      *
      * @name toString
      * @function
-     * @return {String} Stringified box
+     * @return {String} Stringified box string.
      */
     self.toString = function () {
         var box = "";
@@ -328,7 +348,7 @@ function Box(options, text) {
 }
 
 // Default settings
-Box.defaults = {
+CliBox.defaults = {
     marks: {
         nw: "+"
       , n:  "-"
@@ -342,4 +362,4 @@ Box.defaults = {
     }
 };
 
-module.exports = Box;
+module.exports = CliBox;
