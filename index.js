@@ -30,7 +30,7 @@ function Box(options, text) {
       , i
       ;
 
-    // Handle 'x' in options parameter
+    // Handle "x" in options parameter
     if (typeof options === "string" && options.split("x").length === 2) {
         splits = options.split("x");
         w = parseInt(splits[0]);
@@ -88,10 +88,10 @@ function Box(options, text) {
               , index
               ;
 
-            while ((index = lineText.indexOf('\u001b')) > -1) {
+            while ((index = lineText.indexOf("\u001b")) > -1) {
                 results.push({
                     index: index
-                  , code: lineText.substr(index, lineText.indexOf('m', index) - index + 1)
+                  , code: lineText.substr(index, lineText.indexOf("m", index) - index + 1)
                 });
                 lineText = lineText.replace(/\u001b\[.*?m/, "");
                 line.text = lineText;
@@ -165,13 +165,13 @@ function Box(options, text) {
                           ;
 
                         // Find possible places for line breaks in pure text
-                        ii = escaped.lastIndexOf(' ', w - 2);
-                        ii = (ii == -1) ? escaped.indexOf(' ', w - 2) : ii;
+                        ii = escaped.lastIndexOf(" ", w - 2);
+                        ii = (ii == -1) ? escaped.indexOf(" ", w - 2) : ii;
                         // Find actual index of line break
                         while(escapedIndex != ii && actualPlace < splits[i].length) {
                             // Omit colour codes
-                            if(splits[i][actualPlace] == '\u001b') {
-                                while(splits[i][actualPlace] != 'm')
+                            if(splits[i][actualPlace] == "\u001b") {
+                                while(splits[i][actualPlace] != "m")
                                     actualPlace++;
                             }
                             if(splits[i][actualPlace] == escaped[escapedIndex] && outsideCode) {
@@ -186,8 +186,8 @@ function Box(options, text) {
                               , div2 = splits[i].slice(actualPlace).trim()
                               ;
                             // Trim whitespace after escape code
-                            if(div2[0] == '\u001b') {
-                                div2 = div2.substr(0, div2.indexOf(' ')) + div2.slice(div2.indexOf(' ')+1);
+                            if(div2[0] == "\u001b") {
+                                div2 = div2.substr(0, div2.indexOf(" ")) + div2.slice(div2.indexOf(" ")+1);
                             }
                             splits.splice(i, 1, div1, div2);
                         }
@@ -257,7 +257,7 @@ function Box(options, text) {
 
         // The other lines
         var nextLine = this.settings.lines.length ? this.settings.lines.shift() : undefined
-          , lastCode = ''
+          , lastCode = ""
           ;
 
         for (i = 0; i < this.settings.height; ++i) {
@@ -299,7 +299,7 @@ function Box(options, text) {
                 lastCode = nextLine.escapeCodes.shift().code;
                 box += lastCode;
             }
-            box += '\u001b[0m' + this.settings.marks.e;
+            box += "\u001b[0m" + this.settings.marks.e;
         }
 
         // Bottom
