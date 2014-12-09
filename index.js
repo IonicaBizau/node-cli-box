@@ -42,7 +42,7 @@ function CliBox(options, text) {
       , w = options.width || options.w
       , h = options.height || options.h
       , fullscreen = options.fullscreen || false
-      , defaults = Box.defaults
+      , defaults = CliBox.defaults
       , lines = []
       , line = ""
       , splits = null
