@@ -103,7 +103,7 @@ Creates a new instance of CliBox function.
  - `vAlign` (String): Vertical alignement (default: `"center"`). It can take one of the values: `"top"`, `"center"`, `"bottom"`.
 
 #### Return
-- **Object** The CliBox instance.
+- **Object** The `CliBox` instance.
 
 ### `toString()`
 Returns the stringified box.
