@@ -37,7 +37,7 @@ var Box = require("cli-box");
 var b1 = new Box("20x10");
 console.log(b1.toString());
 
-// Set marks
+// Set custom marks
 var b2 = new Box({
     w: 10
   , h: 10
@@ -69,6 +69,7 @@ var b4 = new Box("30x20", {
 });
 console.log(b4.toString());
 
+// Full screen box
 var b5 = new Box({fullscreen: true, marks: {}}, "Hello World!");
 console.log(b5.toString());
 
