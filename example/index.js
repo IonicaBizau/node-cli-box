@@ -2,13 +2,14 @@
 var Box = require("../lib");
 
 // Create a simple box
-var b1 = new Box("20x10");
+var b1 = Box("20x10");
 console.log(b1.toString());
 
 // Set custom marks
 var b2 = new Box({
     w: 10
   , h: 10
+  , stringify: false
   , marks: {
         nw: "╔"
       , n:  "══"
@@ -21,22 +22,22 @@ var b2 = new Box({
       , b: "░░"
     }
 });
-console.log(b2.toString());
+console.log(b2.stringify());
 
-// Box with text
-var b3 = new Box("20x10", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
-console.log(b3.toString());
+// Box with text and use the stringify
+var b3 = Box("20x10", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
+console.log(b3);
 
 // Box with aligned text to top-right
-var b4 = new Box("30x20", {
+var b4 = Box("30x20", {
     text: "Box content"
   , stretch: true
   , autoEOL: true
   , vAlign: "top"
   , hAlign: "right"
 });
-console.log(b4.toString());
+console.log(b4);
 
 // Full screen box
-var b5 = new Box({fullscreen: true, marks: {}}, "Hello World!");
+var b5 = Box({fullscreen: true, marks: {}}, "Hello World!");
 console.log(b5.toString());
