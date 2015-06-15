@@ -1,5 +1,5 @@
 // Dependencies
-var Box = require("../index");
+var Box = require("../lib");
 
 // Create a simple box
 var b1 = new Box("20x10");
