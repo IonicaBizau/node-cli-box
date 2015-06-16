@@ -23,7 +23,7 @@
     "ComFreek <comfreek@outlook.com>"
   ],
   "dependencies": {
-    "ansi-parser": "2.0.0",
+    "ansi-parser": "3.0.0",
     "ul": "5.0.0"
   },
   "license": "KINDLY",
