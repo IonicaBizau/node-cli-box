@@ -1,6 +1,6 @@
 {
   "name": "cli-box",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "A library to generate ASCII boxes via NodeJS",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "ascii",
     "node"
   ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
   "contributors": [
     "Ionică Bizău <bizauionica@gmail.com>",
     "Adam Paszke <adam.paszke@gmail.com>",
