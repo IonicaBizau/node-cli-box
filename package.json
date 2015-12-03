@@ -1,6 +1,6 @@
 {
   "name": "cli-box",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "A library to generate ASCII boxes via NodeJS",
   "main": "lib/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "ansi-parser": "3.0.0",
     "ul": "5.0.0"
   },
-  "license": "KINDLY",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/IonicaBizau/node-cli-box/issues"
   },
