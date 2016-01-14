@@ -1,8 +1,8 @@
 [![cli-box](http://i.imgur.com/6bOa5iy.png)](#)
 
-# cli-box [![Support this project][donate-now]][paypal-donations]
+# cli-box [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Travis](https://img.shields.io/travis/IonicaBizau/node-cli-box.svg)](https://travis-ci.org/IonicaBizau/node-cli-box/) [![Version](https://img.shields.io/npm/v/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Downloads](https://img.shields.io/npm/dt/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
 
-A library to generate ASCII boxes via NodeJS
+> A library to generate ASCII boxes via NodeJS
 
 [![cli-box](http://i.imgur.com/425gC67.png)](#)
 
