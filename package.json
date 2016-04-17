@@ -1,6 +1,6 @@
 {
   "name": "cli-box",
-  "version": "5.2.1",
+  "version": "6.0.0",
   "description": "A library to generate ASCII boxes via NodeJS",
   "main": "lib/index.js",
   "scripts": {
@@ -23,8 +23,11 @@
     "ComFreek <comfreek@outlook.com>"
   ],
   "dependencies": {
-    "ansi-parser": "3.0.0",
-    "ul": "5.0.0"
+    "ansi-parser": "^3.2.1",
+    "deffy": "^2.2.1",
+    "is-undefined": "^1.0.0",
+    "is-win": "^1.0.0",
+    "ul": "^5.2.1"
   },
   "license": "MIT",
   "bugs": {
