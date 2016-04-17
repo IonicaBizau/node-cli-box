@@ -1,18 +1,21 @@
 [![cli-box](http://i.imgur.com/6bOa5iy.png)](#)
 
-# cli-box [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Travis](https://img.shields.io/travis/IonicaBizau/node-cli-box.svg)](https://travis-ci.org/IonicaBizau/node-cli-box/) [![Version](https://img.shields.io/npm/v/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Downloads](https://img.shields.io/npm/dt/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
+# cli-box [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Version](https://img.shields.io/npm/v/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Downloads](https://img.shields.io/npm/dt/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
 
 > A library to generate ASCII boxes via NodeJS
 
 [![cli-box](http://i.imgur.com/425gC67.png)](#)
 
-## Installation
-
+## :cloud: Installation
+    
 ```sh
 $ npm i --save cli-box
 ```
 
-## Example
+            
+## :clipboard: Example
+
+        
 
 ```js
 // Dependencies
@@ -59,9 +62,9 @@ console.log(b4);
 var b5 = Box({fullscreen: true, marks: {}}, "Hello World!");
 console.log(b5.toString());
 ```
-
-## Documentation
-
+    
+## :memo: Documentation
+        
 ### `CliBox(options, text)`
 Creates a new ASCII box.
 
@@ -75,14 +78,14 @@ Creates a new ASCII box.
  - `stringify` (Boolean): If `false` the box will not be stringified (the
    `CliBox` object will be returned instead).
  - `marks` (Object): An object containing mark characters. Default:
-    - `nw`: `"+"`
-    - `n`: `"-"`
-    - `ne`: `"+"`
-    - `e`: `"|"`
-    - `se`: `"+"`
-    - `s`: `"-"`
-    - `sw`: `"+"`
-    - `w`: `"|"`
+    - `nw`: `"┌"`
+    - `n`:  `"─"`
+    - `ne`: `"┐"`
+    - `e`:  `"│"`
+    - `se`: `"┘"`
+    - `s`:  `"─"`
+    - `sw`: `"└"`
+    - `w`:  `"|"`
     - `b`: `" "`
 - **Object|String** `text`: A string to be displayed or an object:
  - `text` (String): The text to be displayed.
@@ -102,38 +105,29 @@ Returns the stringified box.
 #### Return
 - **String** Stringified box string.
 
-## How to contribute
+        
+## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
 
-## Where is this library used?
+## :dizzy: Where is this library used?
 If you are using this library in one of your projects, add it in this list. :sparkles:
 
- - [`artstack-downloader`](https://github.com/IonicaBizau/artstack-downloader)
+ - [`artstack-downloader`](https://github.com/IonicaBizau/artstack-downloader)—Download artworks from your following users.
+ - [`ascii-github`](https://npmjs.com/package/ascii-github)—GitHub CLI Client
+ - [`cli-cal`](https://github.com/fnogatz/cli-cal) (by Falco Nogatz)—Github-like calendar graph for the CLI
+ - [`cli-gh-cal`](https://github.com/IonicaBizau/cli-gh-cal)—GitHub like calendar graphs in command line.
+ - [`cli-github`](https://github.com/IonicaBizau/cli-github)—A fancy GitHub client for command line.
+ - [`csk-cli`](https://github.com/joshumax/csk-cli) (by Josh Max)—A command-line client to ClearDarkSky.com, written in Node.js
+ - [`fluxmockserverapi`](https://npmjs.com/package/fluxmockserverapi) (by Leo Cuello)—Rest service flux-gal
+ - [`ghcal`](https://github.com/IonicaBizau/ghcal)—See the GitHub contributions calendar of a user in the command line.
+ - [`le-table`](https://github.com/IonicaBizau/le-table)—Another NodeJS module for creating ASCII tables.
+ - [`overlap`](https://github.com/IonicaBizau/node-overlap)—Overlap two strings that contain new lines. Useful for ASCII drawings.
+ - [`text-animation`](https://github.com/IonicaBizau/text-animation)—Create beautiful ASCII text animations using NodeJS.
 
- - [`ascii-github`](https://npmjs.com/package/ascii-github)
-
- - [`cli-cal`](https://github.com/fnogatz/cli-cal) by Falco Nogatz
-
- - [`cli-gh-cal`](https://github.com/IonicaBizau/cli-gh-cal)
-
- - [`cli-github`](https://github.com/IonicaBizau/cli-github)
-
- - [`cli-sunset`](https://github.com/IonicaBizau/cli-sunset)
-
- - [`csk-cli`](https://github.com/joshumax/csk-cli) by Josh Max
-
- - [`ghcal`](https://github.com/IonicaBizau/ghcal)
-
- - [`le-table`](https://github.com/IonicaBizau/node-le-table)
-
- - [`overlap`](https://github.com/IonicaBizau/node-overlap)
-
- - [`text-animation`](https://github.com/IonicaBizau/text-animation)
-
-## License
-
+## :scroll: License
+    
 [MIT][license] © [Ionică Bizău][website]
-
+    
 [paypal-donations]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RVXDDLKKLQRJW
 [donate-now]: http://i.imgur.com/6cMbHOC.png
 
