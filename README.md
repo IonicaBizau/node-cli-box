@@ -1,3 +1,4 @@
+
 [![cli-box](http://i.imgur.com/6bOa5iy.png)](#)
 
 # cli-box [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Version](https://img.shields.io/npm/v/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Downloads](https://img.shields.io/npm/dt/cli-box.svg)](https://www.npmjs.com/package/cli-box) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
@@ -7,15 +8,15 @@
 [![cli-box](http://i.imgur.com/425gC67.png)](#)
 
 ## :cloud: Installation
-    
+
 ```sh
 $ npm i --save cli-box
 ```
 
-            
+
 ## :clipboard: Example
 
-        
+
 
 ```js
 // Dependencies
@@ -44,6 +45,7 @@ var b2 = new Box({
 });
 console.log(b2.stringify());
 
+
 // Box with text and use the stringify
 var b3 = Box("20x10", "I will be \u001b[31mdis\u001b[0mplayed inside! \n A\u001b[34mnd I'm in a\u001b[0m new line!");
 console.log(b3);
@@ -62,9 +64,10 @@ console.log(b4);
 var b5 = Box({fullscreen: true, marks: {}}, "Hello World!");
 console.log(b5.toString());
 ```
-    
+
 ## :memo: Documentation
-        
+
+
 ### `CliBox(options, text)`
 Creates a new ASCII box.
 
@@ -105,12 +108,14 @@ Returns the stringified box.
 #### Return
 - **String** Stringified box string.
 
-        
+
+
 ## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
 
 ## :dizzy: Where is this library used?
 If you are using this library in one of your projects, add it in this list. :sparkles:
+
 
  - [`artstack-downloader`](https://github.com/IonicaBizau/artstack-downloader)—Download artworks from your following users.
  - [`ascii-github`](https://npmjs.com/package/ascii-github)—GitHub CLI Client
@@ -125,9 +130,9 @@ If you are using this library in one of your projects, add it in this list. :spa
  - [`text-animation`](https://github.com/IonicaBizau/text-animation)—Create beautiful ASCII text animations using NodeJS.
 
 ## :scroll: License
-    
+
 [MIT][license] © [Ionică Bizău][website]
-    
+
 [paypal-donations]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RVXDDLKKLQRJW
 [donate-now]: http://i.imgur.com/6cMbHOC.png
 
