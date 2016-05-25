@@ -1,6 +1,6 @@
 {
   "name": "cli-box",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "A library to generate ASCII boxes via NodeJS",
   "main": "lib/index.js",
   "scripts": {
@@ -50,6 +50,7 @@
     "src/",
     "resources/",
     "menu/",
+    "scripts/",
     "cli.js",
     "index.js"
   ]
