@@ -115,21 +115,6 @@ Returns the stringified box.
 ## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
 
-## :dizzy: Where is this library used?
-If you are using this library in one of your projects, add it in this list. :sparkles:
-
-
- - [`artstack-downloader`](https://github.com/IonicaBizau/artstack-downloader)—Download artworks from your following users.
- - [`ascii-github`](https://npmjs.com/package/ascii-github)—GitHub CLI Client
- - [`cli-cal`](https://github.com/fnogatz/cli-cal) (by Falco Nogatz)—Github-like calendar graph for the CLI
- - [`cli-gh-cal`](https://github.com/IonicaBizau/cli-gh-cal)—GitHub like calendar graphs in command line.
- - [`cli-github`](https://github.com/IonicaBizau/cli-github)—A fancy GitHub client for command line.
- - [`csk-cli`](https://github.com/joshumax/csk-cli) (by Josh Max)—A command-line client to ClearDarkSky.com, written in Node.js
- - [`fluxmockserverapi`](https://npmjs.com/package/fluxmockserverapi) (by Leo Cuello)—Rest service flux-gal
- - [`ghcal`](https://github.com/IonicaBizau/ghcal)—See the GitHub contributions calendar of a user in the command line.
- - [`le-table`](https://github.com/IonicaBizau/le-table)—Another NodeJS module for creating ASCII tables.
- - [`overlap`](https://github.com/IonicaBizau/node-overlap)—Overlap two strings that contain new lines. Useful for ASCII drawings.
- - [`text-animation`](https://github.com/IonicaBizau/text-animation)—Create beautiful ASCII text animations using NodeJS.
 
 ## :scroll: License
 
