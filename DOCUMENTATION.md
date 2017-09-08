@@ -6,6 +6,7 @@ You can see below the API reference of this module.
 Creates a new ASCII box.
 
 #### Params
+
 - **Object|String** `options`: A string representing the size: `WIDTHxHEIGHT` (e.g. `10x20`) or an object:
 
  - `width` or `w` (Number): The box width.
